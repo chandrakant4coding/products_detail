@@ -17,7 +17,7 @@ export default function ProductPage({ product, totalProducts }) {
 
   // Share function for sharing the product URL
   const shareProduct = async () => {
-    const productUrl = `https://products-detail-13bcc3n9i-chandrakant4codings-projects.vercel.app/product/${id}`;
+    const productUrl = `https://products-detail-722l.vercel.app/product/${id}`;
 
     if (navigator.share) {
       try {
@@ -52,7 +52,7 @@ export default function ProductPage({ product, totalProducts }) {
         <meta property="og:title" content={product.title} />
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.image} />
-        <meta property="og:url" content={`https://products-detail-13bcc3n9i-chandrakant4codings-projects.vercel.app/product/${id}`} />
+        <meta property="og:url" content={`https://products-detail-722l.vercel.app/product/${id}`} />
         <meta property="og:type" content="product" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
