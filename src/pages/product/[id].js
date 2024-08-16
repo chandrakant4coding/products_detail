@@ -66,6 +66,7 @@ export default function ProductPage({ product, totalProducts }) {
           alt={product.title}
           className={styles.productImage}
         />
+        <div style={{display:"flex",flexDirection:"column",justifyContent:"space-between",height:"auto"}}>
         <div className={styles.productInfo}>
           <h1>{product.title}</h1>
           <p className={styles.rating}>
@@ -75,10 +76,10 @@ export default function ProductPage({ product, totalProducts }) {
           <hr />
           <p className={styles.price}>Price: ${product.price}</p>
           <p>{product.description}</p>
+         
+      
         </div>
-      </div>
-
-      <div className={styles.buttonGroup}>
+        <div className={styles.buttonGroup}>
         <button className={styles.button} onClick={handlePreviousProduct}>
           Previous
         </button>
@@ -89,6 +90,11 @@ export default function ProductPage({ product, totalProducts }) {
           Share Product
         </button>
       </div>
+        </div>
+       
+      </div>
+
+
     </div>
   );
 }
