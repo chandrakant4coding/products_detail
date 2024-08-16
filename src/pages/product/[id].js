@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import styles from './ProductPage.module.css'; // Import the CSS module
 
 export default function ProductPage({ product, totalProducts }) {
   const router = useRouter();
@@ -15,7 +16,6 @@ export default function ProductPage({ product, totalProducts }) {
     router.push(`/product/${prevId}`);
   };
 
-  // Share function for sharing the product URL
   const shareProduct = async () => {
     const productUrl = `https://products-detail-722l.vercel.app/product/${id}`;
 
@@ -31,7 +31,6 @@ export default function ProductPage({ product, totalProducts }) {
         console.error("Error sharing the product:", error);
       }
     } else {
-      // Fallback for copying the URL to the clipboard
       try {
         await navigator.clipboard.writeText(productUrl);
         alert("Product URL copied to clipboard!");
@@ -46,7 +45,7 @@ export default function ProductPage({ product, totalProducts }) {
   }
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
         <title>{product.title}</title>
         <meta property="og:title" content={product.title} />
@@ -58,13 +57,17 @@ export default function ProductPage({ product, totalProducts }) {
         <meta property="og:image:height" content="630" />
       </Head>
 
-      <h1>{product.title}</h1>
-      <img src={product.image} alt={product.title} className="productImage" />
-      <p>{product.description}</p>
-      <p>Price: ${product.price}</p>
-      <p>Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
+      <div className={styles.productDetails}>
+        <img src={product.image} alt={product.title} className={styles.productImage} />
+        <div className={styles.productInfo}>
+          <h1>{product.title}</h1>
+          <p>{product.description}</p>
+          <p className={styles.price}>Price: ${product.price}</p>
+          <p>Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
+        </div>
+      </div>
 
-      <div className="buttonGroup">
+      <div className={styles.buttonGroup}>
         <button onClick={handlePreviousProduct}>Previous</button>
         <button onClick={handleNextProduct}>Next</button>
         <button onClick={shareProduct}>Share Product</button>
@@ -76,12 +79,10 @@ export default function ProductPage({ product, totalProducts }) {
 export async function getServerSideProps(context) {
   const { id } = context.params;
 
-  // Fetch product data
   try {
     const productRes = await fetch(`https://fakestoreapi.com/products/${id}`);
     const product = await productRes.json();
 
-    // Fetch total number of products
     const totalProductsRes = await fetch('https://fakestoreapi.com/products');
     const totalProducts = (await totalProductsRes.json()).length;
 
