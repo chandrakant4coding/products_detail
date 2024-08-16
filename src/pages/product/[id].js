@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import styles from './ProductPage.module.css'; // Import the CSS module
+import { useRouter } from "next/router";
+import Head from "next/head";
+import styles from "./ProductPage.module.css";
 
 export default function ProductPage({ product, totalProducts }) {
   const router = useRouter();
@@ -51,26 +51,43 @@ export default function ProductPage({ product, totalProducts }) {
         <meta property="og:title" content={product.title} />
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.image} />
-        <meta property="og:url" content={`https://products-detail-722l.vercel.app/product/${id}`} />
+        <meta
+          property="og:url"
+          content={`https://products-detail-722l.vercel.app/product/${id}`}
+        />
         <meta property="og:type" content="product" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Head>
 
       <div className={styles.productDetails}>
-        <img src={product.image} alt={product.title} className={styles.productImage} />
+        <img
+          src={product.image}
+          alt={product.title}
+          className={styles.productImage}
+        />
         <div className={styles.productInfo}>
           <h1>{product.title}</h1>
-          <p>{product.description}</p>
+          <p className={styles.rating}>
+            <strong>{product.rating.rate}</strong> | {product.rating.count}{" "}
+            Ratings
+          </p>
+          <hr />
           <p className={styles.price}>Price: ${product.price}</p>
-          <p>Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
+          <p>{product.description}</p>
         </div>
       </div>
 
       <div className={styles.buttonGroup}>
-        <button onClick={handlePreviousProduct}>Previous</button>
-        <button onClick={handleNextProduct}>Next</button>
-        <button onClick={shareProduct}>Share Product</button>
+        <button className={styles.button} onClick={handlePreviousProduct}>
+          Previous
+        </button>
+        <button className={styles.button} onClick={handleNextProduct}>
+          Next
+        </button>
+        <button className={styles.button} onClick={shareProduct}>
+          Share Product
+        </button>
       </div>
     </div>
   );
@@ -83,7 +100,7 @@ export async function getServerSideProps(context) {
     const productRes = await fetch(`https://fakestoreapi.com/products/${id}`);
     const product = await productRes.json();
 
-    const totalProductsRes = await fetch('https://fakestoreapi.com/products');
+    const totalProductsRes = await fetch("https://fakestoreapi.com/products");
     const totalProducts = (await totalProductsRes.json()).length;
 
     return {
