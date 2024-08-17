@@ -1,10 +1,35 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import styles from "./ProductPage.module.css";
 
-export default function ProductPage({ product, totalProducts }) {
+export default function ProductPage({ product: initialProduct, totalProducts }) {
   const router = useRouter();
   const { id } = router.query;
+
+  const [product, setProduct] = useState(initialProduct);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Show loader while fetching product data
+    const fetchProduct = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+        const data = await res.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      } finally {
+        setLoading(false); // Hide loader after fetching data
+      }
+    };
+
+    // Only fetch data if router is ready (i.e., when `id` is available)
+    if (id) {
+      fetchProduct();
+    }
+  }, [id]);
 
   const handleNextProduct = () => {
     const nextId = parseInt(id) < totalProducts ? parseInt(id) + 1 : 1;
@@ -40,6 +65,10 @@ export default function ProductPage({ product, totalProducts }) {
     }
   };
 
+  if (loading) {
+    return <div className={styles.loader}>Loading...</div>;
+  }
+
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -66,35 +95,37 @@ export default function ProductPage({ product, totalProducts }) {
           alt={product.title}
           className={styles.productImage}
         />
-        <div style={{display:"flex",flexDirection:"column",justifyContent:"space-between",height:"auto"}}>
-        <div className={styles.productInfo}>
-          <h1>{product.title}</h1>
-          <p className={styles.rating}>
-            <strong>{product.rating.rate}</strong> | {product.rating.count}{" "}
-            Ratings
-          </p>
-          <hr />
-          <p className={styles.price}>Price: ${product.price}</p>
-          <p>{product.description}</p>
-         
-      
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "auto",
+          }}
+        >
+          <div className={styles.productInfo}>
+            <h1>{product.title}</h1>
+            <p className={styles.rating}>
+              <strong>{product.rating.rate}</strong> | {product.rating.count}{" "}
+              Ratings
+            </p>
+            <hr />
+            <p className={styles.price}>Price: ${product.price}</p>
+            <p>{product.description}</p>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button className={styles.button} onClick={handlePreviousProduct}>
+              Previous
+            </button>
+            <button className={styles.button} onClick={handleNextProduct}>
+              Next
+            </button>
+            <button className={styles.button} onClick={shareProduct}>
+              Share Product
+            </button>
+          </div>
         </div>
-        <div className={styles.buttonGroup}>
-        <button className={styles.button} onClick={handlePreviousProduct}>
-          Previous
-        </button>
-        <button className={styles.button} onClick={handleNextProduct}>
-          Next
-        </button>
-        <button className={styles.button} onClick={shareProduct}>
-          Share Product
-        </button>
       </div>
-        </div>
-       
-      </div>
-
-
     </div>
   );
 }
