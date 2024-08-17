@@ -1,3 +1,4 @@
+/* General styles for larger screens */
 .container {
     display: flex;
     justify-content: center;
@@ -23,7 +24,6 @@
 .buttonGroup {
     display: flex;
     gap: 10px;
-    
 }
 
 .button {
@@ -48,7 +48,6 @@
 
 .productInfo {
     max-width: 500px;
-    
 }
 
 .productInfo p {
@@ -68,8 +67,8 @@
     border: 1px solid #bdbdbd;
     width: 180px;
     padding: 0 5px;
-
 }
+
 .loader {
     display: flex;
     justify-content: center;
@@ -77,5 +76,91 @@
     height: 100vh;
     font-size: 24px;
     font-weight: bold;
-  }
-  
+}
+
+/* Responsive styles for screens smaller than 768px (e.g., tablets) */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 50px;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .productDetails {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .productImage {
+        max-width: 80%;
+        height: auto;
+        margin: 0 0 20px 0;
+        padding: 10px;
+    }
+
+    .productInfo {
+        max-width: 80%;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .productInfo p {
+        font-size: 18px;
+    }
+
+    .productInfo p.price {
+        font-size: 22px;
+    }
+
+    .productInfo p.rating {
+        font-size: 22px;
+    }
+}
+
+/* Responsive styles for screens smaller than 480px (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .container {
+        margin-top: 30px;
+    }
+
+    .productImage {
+        max-width: 100%;
+        height: auto;
+        margin: 0 0 15px 0;
+        padding: 5px;
+    }
+
+    .productInfo {
+        max-width: 90%;
+    }
+
+    .productInfo p {
+        font-size: 16px;
+    }
+
+    .productInfo p.price {
+        font-size: 20px;
+    }
+
+    .productInfo p.rating {
+        font-size: 20px;
+        width: 100%;
+    }
+
+    .buttonGroup {
+        gap: 5px;
+    }
+
+    .button {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+}
